@@ -1,5 +1,12 @@
 import SwiftUI
 
+// MARK: - Private shape type-eraser (AnyShape requires iOS 16)
+private struct ErasedShape: Shape, @unchecked Sendable {
+    private let _path: @Sendable (CGRect) -> Path
+    init<S: Shape>(_ shape: S) { _path = { shape.path(in: $0) } }
+    func path(in rect: CGRect) -> Path { _path(rect) }
+}
+
 extension View {
     @ViewBuilder
     func glassCard(
@@ -12,14 +19,14 @@ extension View {
         } else {
             self
                 .background {
-                    AnyShape(shape)
+                    ErasedShape(shape)
                         .fill(.ultraThinMaterial)
                         .overlay(
-                            AnyShape(shape)
+                            ErasedShape(shape)
                                 .stroke(.white.opacity(0.15), lineWidth: 1)
                         )
                 }
-                .clipShape(AnyShape(shape))
+                .clipShape(ErasedShape(shape))
         }
     }
 }

@@ -10,6 +10,7 @@
 		479CD08D285F05602CD72C76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69B4239D3038E2E1277EE5FF /* Assets.xcassets */; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* Localizable.strings */; };
 		AABB001122334455667788CC /* GlassModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB001122334455667788DD /* GlassModifier.swift */; };
+		EEFF001122334455667788AA /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFF001122334455667788BB /* ViewExtensions.swift */; };
 		CCDD001122334455667788AA /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDD001122334455667788BB /* AppBackground.swift */; };
 		F9D3D3402F796C0B00B26FD0 /* PayloadGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D33A2F796C0B00B26FD0 /* PayloadGridView.swift */; };
 		F9D3D3412F796C0B00B26FD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D3392F796C0B00B26FD0 /* ContentView.swift */; };
@@ -25,6 +26,7 @@
 		050F7E54ABDAB1DC5F65FF81 /* PS5PayloadSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PS5PayloadSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B4239D3038E2E1277EE5FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = PS5PayloadSender/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		AABB001122334455667788DD /* GlassModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassModifier.swift; sourceTree = "<group>"; };
+		EEFF001122334455667788BB /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		AABBCCDD11223344EEFF5566 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.xcconfig; sourceTree = "<group>"; };
 		B2C3D4E5000000000000DE00 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = PS5PayloadSender/Resources/de.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B2C3D4E5000000000000EN00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = PS5PayloadSender/Resources/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -99,6 +101,7 @@
 				F9D3D33B2F796C0B00B26FD0 /* SplashScreenView.swift */,
 				F9D3D33C2F796C0B00B26FD0 /* StatusView.swift */,
 				AABB001122334455667788DD /* GlassModifier.swift */,
+				EEFF001122334455667788BB /* ViewExtensions.swift */,
 				CCDD001122334455667788BB /* AppBackground.swift */,
 			);
 			path = Views;
@@ -199,6 +202,7 @@
 				F9D3D3462F796C0B00B26FD0 /* SplashScreenView.swift in Sources */,
 				F9D3D3472F796C0B00B26FD0 /* PayloadSender.swift in Sources */,
 				AABB001122334455667788CC /* GlassModifier.swift in Sources */,
+				EEFF001122334455667788AA /* ViewExtensions.swift in Sources */,
 				CCDD001122334455667788AA /* AppBackground.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,7 +303,7 @@
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PS5PayloadSender/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -384,7 +388,7 @@
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PS5PayloadSender/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
