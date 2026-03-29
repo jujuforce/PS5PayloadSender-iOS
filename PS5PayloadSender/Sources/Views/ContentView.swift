@@ -45,6 +45,7 @@ struct ContentView: View {
                     )
                     .padding(.horizontal)
                 }
+                .scrollBounceBasedOnSize()
 
                 // Fixed bottom: send button
                 if store.hasFolder {
@@ -79,6 +80,9 @@ struct ContentView: View {
             .scrollDismissesKeyboardCompat()
             .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
             .navigationTitle(String(localized: "app.title"))
+            #if targetEnvironment(macCatalyst)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [UTType.folder]) { result in
                 if case .success(let url) = result { store.setFolder(url) }
             }
