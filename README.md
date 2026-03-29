@@ -30,7 +30,13 @@ Sends payload files to your PS5 over Wi-Fi using a raw TCP connection. Works wit
 
 Load your payloads from **Dropbox**, **iCloud Drive**, **Google Drive**, or any folder visible in the iOS Files app.
 
-## Build
+## Installation
+
+### Option 1 — TrollStore (no PC, no Apple account)
+
+Download the latest `.ipa` from the [Releases](https://github.com/jujuforce/PS5PayloadSender-iOS/releases) page and install it with [TrollStore](https://github.com/opa334/TrollStore) or any other IPA installer (Sideloadly, AltStore, etc.).
+
+### Option 2 — Build yourself
 
 ```bash
 git clone https://github.com/jujuforce/PS5PayloadSender-iOS.git
@@ -44,7 +50,7 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 PRODUCT_BUNDLE_IDENTIFIER = com.yourname.PS5PayloadSender
 ```
 
-Open in Xcode, build & run.
+Open `PS5PayloadSender.xcodeproj` in Xcode, build & run on your device.
 
 ## Usage
 
