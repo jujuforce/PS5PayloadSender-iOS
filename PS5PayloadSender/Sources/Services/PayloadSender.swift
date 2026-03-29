@@ -23,19 +23,19 @@ enum SendError: LocalizedError {
 }
 
 /// Thread-safe one-shot continuation wrapper.
-private final class ContinuationBox: Sendable {
-    private let state: OSAllocatedUnfairLock<CheckedContinuation<Int, any Error>?>
+private final class ContinuationBox: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<Int, any Error>?
 
     init(_ continuation: CheckedContinuation<Int, any Error>) {
-        self.state = OSAllocatedUnfairLock(initialState: continuation)
+        self.continuation = continuation
     }
 
     func resume(with result: Result<Int, any Error>) {
-        let cont = state.withLock { val -> CheckedContinuation<Int, any Error>? in
-            let c = val
-            val = nil
-            return c
-        }
+        lock.lock()
+        let cont = continuation
+        continuation = nil
+        lock.unlock()
         cont?.resume(with: result)
     }
 }

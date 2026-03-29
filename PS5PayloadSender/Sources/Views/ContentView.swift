@@ -15,7 +15,20 @@ struct ContentView: View {
     enum Field: Hashable { case ip, port }
 
     var body: some View {
-        NavigationStack {
+        navigationContainer
+    }
+
+    @ViewBuilder
+    private var navigationContainer: some View {
+        if #available(iOS 16, *) {
+            NavigationStack { mainContent }
+        } else {
+            NavigationView { mainContent }
+                .navigationViewStyle(.stack)
+        }
+    }
+
+    private var mainContent: some View {
             VStack(spacing: 0) {
                 // Fixed top: connection fields
                 connectionSection
@@ -49,8 +62,10 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                    Button(String(localized: "connection.keyboard.ok")) { focusedField = nil }
-                        .fontWeight(.semibold)
+                    Button { focusedField = nil } label: {
+                        Text(String(localized: "connection.keyboard.ok"))
+                            .fontWeight(.semibold)
+                    }
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     if store.hasFolder {
@@ -61,10 +76,10 @@ struct ContentView: View {
                     }
                 }
             }
-            .scrollDismissesKeyboard(.interactively)
+            .scrollDismissesKeyboardCompat()
             .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
             .navigationTitle(String(localized: "app.title"))
-            .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [.folder]) { result in
+            .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [UTType.folder]) { result in
                 if case .success(let url) = result { store.setFolder(url) }
             }
             .onChange(of: store.payloads) { newPayloads in
@@ -73,7 +88,6 @@ struct ContentView: View {
                     portString = "\(selectedPayload?.defaultPort ?? 9021)"
                 }
             }
-        }
     }
 
     // MARK: - Connection
@@ -138,7 +152,7 @@ struct ContentView: View {
                 let bytesSent = try await PayloadSender.send(data: data, to: ipAddress, port: port)
                 await MainActor.run { status = .success(bytesSent); isSending = false }
                 // Reset to idle after showing success briefly
-                try? await Task.sleep(for: .seconds(3))
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
                 await MainActor.run {
                     if case .success = status { status = .idle }
                 }
@@ -151,7 +165,7 @@ struct ContentView: View {
                     isSending = false
                 }
                 // Reset to idle after showing error briefly
-                try? await Task.sleep(for: .seconds(3))
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
                 await MainActor.run {
                     if case .error = status { status = .idle }
                 }
