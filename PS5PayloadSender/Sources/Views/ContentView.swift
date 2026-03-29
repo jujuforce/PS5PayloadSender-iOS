@@ -2,7 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ContentView: View {
-    @Environment(PayloadStore.self) private var store
+    @EnvironmentObject private var store: PayloadStore
     @AppStorage("ps5_ip") private var ipAddress = ""
     @State private var selectedPayload: Payload?
     @State private var portString = "9021"
@@ -67,7 +67,7 @@ struct ContentView: View {
             .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [.folder]) { result in
                 if case .success(let url) = result { store.setFolder(url) }
             }
-            .onChange(of: store.payloads) { _, newPayloads in
+            .onChange(of: store.payloads) { newPayloads in
                 if selectedPayload == nil || !newPayloads.contains(where: { $0.id == selectedPayload?.id }) {
                     selectedPayload = newPayloads.first
                     portString = "\(selectedPayload?.defaultPort ?? 9021)"
@@ -165,7 +165,9 @@ struct ContentView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ContentView()
-        .environment(PayloadStore(preview: Payload.preview))
+        .environmentObject(PayloadStore(preview: Payload.preview))
 }
+#endif

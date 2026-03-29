@@ -22,7 +22,7 @@
 
 /* Send Button */
 "send.idle" = "Payload senden";
-"send.sending" = "Senden… — Zum Abbrechen tippen";
+"send.sending" = "Senden... Zum Abbrechen tippen";
 "send.success" = "%@ gesendet";
 "send.error.noPayload" = "Kein Payload ausgewählt";
 "send.error.invalidPort" = "Ungültige Portnummer";

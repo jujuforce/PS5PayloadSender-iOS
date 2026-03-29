@@ -22,7 +22,7 @@
 
 /* Send Button */
 "send.idle" = "페이로드 전송";
-"send.sending" = "전송 중… — 탭하여 취소";
+"send.sending" = "전송 중... 탭하여 취소";
 "send.success" = "%@ 전송 완료";
 "send.error.noPayload" = "페이로드가 선택되지 않았습니다";
 "send.error.invalidPort" = "잘못된 포트 번호";

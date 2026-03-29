@@ -22,7 +22,7 @@
 
 /* Send Button */
 "send.idle" = "ペイロードを送信";
-"send.sending" = "送信中… — タップでキャンセル";
+"send.sending" = "送信中... タップでキャンセル";
 "send.success" = "%@ 送信完了";
 "send.error.noPayload" = "ペイロードが選択されていません";
 "send.error.invalidPort" = "無効なポート番号";

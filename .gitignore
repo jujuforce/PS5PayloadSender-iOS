@@ -16,6 +16,7 @@ xcuserdata/
 
 # Generated
 generate_icon.py
+*.ipa
 
 # Local config
 Local.xcconfig

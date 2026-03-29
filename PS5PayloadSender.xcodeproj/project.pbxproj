@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		479CD08D285F05602CD72C76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69B4239D3038E2E1277EE5FF /* Assets.xcassets */; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* Localizable.strings */; };
+		AABB001122334455667788CC /* GlassModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB001122334455667788DD /* GlassModifier.swift */; };
+		CCDD001122334455667788AA /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDD001122334455667788BB /* AppBackground.swift */; };
 		F9D3D3402F796C0B00B26FD0 /* PayloadGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D33A2F796C0B00B26FD0 /* PayloadGridView.swift */; };
 		F9D3D3412F796C0B00B26FD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D3392F796C0B00B26FD0 /* ContentView.swift */; };
 		F9D3D3422F796C0B00B26FD0 /* PS5PayloadSenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D33E2F796C0B00B26FD0 /* PS5PayloadSenderApp.swift */; };
@@ -17,13 +19,12 @@
 		F9D3D3452F796C0B00B26FD0 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D3342F796C0B00B26FD0 /* Payload.swift */; };
 		F9D3D3462F796C0B00B26FD0 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D33B2F796C0B00B26FD0 /* SplashScreenView.swift */; };
 		F9D3D3472F796C0B00B26FD0 /* PayloadSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D3D3362F796C0B00B26FD0 /* PayloadSender.swift */; };
-		AABB001122334455667788CC /* GlassModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB001122334455667788DD /* GlassModifier.swift */; };
-		CCDD001122334455667788AA /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDD001122334455667788BB /* AppBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		050F7E54ABDAB1DC5F65FF81 /* PS5PayloadSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PS5PayloadSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B4239D3038E2E1277EE5FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = PS5PayloadSender/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		AABB001122334455667788DD /* GlassModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassModifier.swift; sourceTree = "<group>"; };
 		AABBCCDD11223344EEFF5566 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.xcconfig; sourceTree = "<group>"; };
 		B2C3D4E5000000000000DE00 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = PS5PayloadSender/Resources/de.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B2C3D4E5000000000000EN00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = PS5PayloadSender/Resources/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -34,6 +35,7 @@
 		B2C3D4E5000000000000KO00 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = PS5PayloadSender/Resources/ko.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B2C3D4E5000000000000PT00 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "PS5PayloadSender/Resources/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		B2C3D4E5000000000000ZH00 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "PS5PayloadSender/Resources/zh-Hans.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		CCDD001122334455667788BB /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
 		F9D3D3342F796C0B00B26FD0 /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		F9D3D3362F796C0B00B26FD0 /* PayloadSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadSender.swift; sourceTree = "<group>"; };
 		F9D3D3372F796C0B00B26FD0 /* PayloadStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadStore.swift; sourceTree = "<group>"; };
@@ -42,8 +44,6 @@
 		F9D3D33B2F796C0B00B26FD0 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		F9D3D33C2F796C0B00B26FD0 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		F9D3D33E2F796C0B00B26FD0 /* PS5PayloadSenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS5PayloadSenderApp.swift; sourceTree = "<group>"; };
-		AABB001122334455667788DD /* GlassModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassModifier.swift; sourceTree = "<group>"; };
-		CCDD001122334455667788BB /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -299,14 +299,19 @@
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PS5PayloadSender/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -379,14 +384,19 @@
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PS5PayloadSender/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

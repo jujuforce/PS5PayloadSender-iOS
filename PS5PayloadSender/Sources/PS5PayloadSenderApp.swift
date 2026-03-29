@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct PS5PayloadSenderApp: App {
     @State private var showSplash = true
-    @State private var store = PayloadStore()
+    @StateObject private var store = PayloadStore()
 
     var body: some Scene {
         WindowGroup {
@@ -18,7 +18,7 @@ struct PS5PayloadSenderApp: App {
                     }
             } else {
                 ContentView()
-                    .environment(store)
+                    .environmentObject(store)
                     .transition(.opacity)
             }
         }

@@ -22,7 +22,7 @@
 
 /* Send Button */
 "send.idle" = "Envoyer le payload";
-"send.sending" = "Envoi… — Toucher pour annuler";
+"send.sending" = "Envoi... Toucher pour annuler";
 "send.success" = "%@ envoyé(s)";
 "send.error.noPayload" = "Aucun payload sélectionné";
 "send.error.invalidPort" = "Numéro de port invalide";

@@ -1,11 +1,11 @@
 import Foundation
 
-@MainActor @Observable
-final class PayloadStore {
-    private(set) var payloads: [Payload] = []
-    private(set) var isLoading = false
-    private(set) var error: String?
-    private(set) var folderURL: URL?
+@MainActor
+final class PayloadStore: ObservableObject {
+    @Published private(set) var payloads: [Payload] = []
+    @Published private(set) var isLoading = false
+    @Published private(set) var error: String?
+    @Published private(set) var folderURL: URL?
 
     var hasFolder: Bool { folderURL != nil }
 

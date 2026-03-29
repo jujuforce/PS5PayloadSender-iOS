@@ -5,11 +5,12 @@
 <h1 align="center">PS5 Payload Sender</h1>
 
 <p align="center">
-  Send <code>.elf</code> and <code>.lua</code> payloads to your PS5 from your iPhone.
+  Send <code>.elf</code> and <code>.lua</code> payloads to your PS5 from your iPhone or Mac.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/iOS-17%2B-blue" />
+  <img src="https://img.shields.io/badge/iOS-16%2B-blue" />
+  <img src="https://img.shields.io/badge/macOS-13%2B-blue" />
   <img src="https://img.shields.io/badge/Swift-6-orange" />
   <img src="https://img.shields.io/badge/license-MIT-green" />
 </p>
@@ -17,18 +18,18 @@
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/main.png" width="230" alt="Dark mode" />
+  <img src="screenshots/main.png" width="200" alt="Dark mode" />
   &nbsp;&nbsp;
-  <img src="screenshots/main_light.png" width="230" alt="Light mode" />
+  <img src="screenshots/main_light.png" width="200" alt="Light mode" />
   &nbsp;&nbsp;
-  <img src="screenshots/folder.png" width="230" alt="Folder selection" />
+  <img src="screenshots/mac.png" width="340" alt="macOS" />
 </p>
 
 ## What It Does
 
 Sends payload files to your PS5 over Wi-Fi using a raw TCP connection. Works with `.lua` (port 9026) and `.elf` (port 9021) files.
 
-Load your payloads from **Dropbox**, **iCloud Drive**, **Google Drive**, or any folder visible in the iOS Files app.
+Load your payloads from **Dropbox**, **iCloud Drive**, **Google Drive**, or any folder visible in the Files app. Also runs natively on macOS 13+ via Mac Catalyst.
 
 ## Installation
 
@@ -50,7 +51,7 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 PRODUCT_BUNDLE_IDENTIFIER = com.yourname.PS5PayloadSender
 ```
 
-Open `PS5PayloadSender.xcodeproj` in Xcode, build & run on your device.
+Open `PS5PayloadSender.xcodeproj` in Xcode, build & run on your device or Mac.
 
 ## Usage
 

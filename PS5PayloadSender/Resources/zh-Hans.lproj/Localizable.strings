@@ -22,7 +22,7 @@
 
 /* Send Button */
 "send.idle" = "发送载荷";
-"send.sending" = "发送中… — 点击取消";
+"send.sending" = "发送中... 点击取消";
 "send.success" = "已发送 %@";
 "send.error.noPayload" = "未选择载荷";
 "send.error.invalidPort" = "端口号无效";

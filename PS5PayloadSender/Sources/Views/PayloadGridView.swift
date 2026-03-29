@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PayloadGridView: View {
-    @Environment(PayloadStore.self) private var store
+    @EnvironmentObject private var store: PayloadStore
     @Binding var selectedPayload: Payload?
     @Binding var portString: String
     @Binding var showFolderPicker: Bool
@@ -119,7 +119,7 @@ struct PayloadGridView: View {
             ForEach(store.payloads) { payload in
                 let isSelected = selectedPayload?.id == payload.id
                 Button {
-                    withAnimation(.smooth) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
                         selectedPayload = payload
                         portString = "\(payload.defaultPort)"
                     }
@@ -163,6 +163,7 @@ struct PayloadGridView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PayloadGridView(
         selectedPayload: .constant(Payload.preview[0]),
@@ -170,5 +171,6 @@ struct PayloadGridView: View {
         showFolderPicker: .constant(false)
     )
     .padding()
-    .environment(PayloadStore(preview: Payload.preview))
+    .environmentObject(PayloadStore(preview: Payload.preview))
 }
+#endif
