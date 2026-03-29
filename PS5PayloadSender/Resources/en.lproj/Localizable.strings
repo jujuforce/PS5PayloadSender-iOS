@@ -1,0 +1,42 @@
+/* Navigation */
+"app.title" = "PS5 Payload Sender";
+
+/* Connection */
+"connection.ip.placeholder" = "PS5 IP Address";
+"connection.port.placeholder" = "Port";
+"connection.keyboard.ok" = "OK";
+
+/* Folder */
+"folder.select.title" = "Select Payloads Folder";
+"folder.select.description" = "Choose a folder containing your\n.elf and .lua payload files";
+"folder.select.browse" = "Browse...";
+"folder.select.another" = "Select Another Folder";
+"folder.menu.change" = "Change Folder";
+"folder.menu.disconnect" = "Disconnect Folder";
+
+/* Payloads */
+"payloads.loading" = "Loading payloads...";
+"payloads.empty.title" = "No payloads found";
+"payloads.empty.description" = "Add .elf or .lua files to your\nselected folder";
+"payloads.refresh" = "Refresh";
+
+/* Send Button */
+"send.idle" = "Send Payload";
+"send.sending" = "Sending… — Tap to Cancel";
+"send.success" = "Sent %@";
+"send.error.noPayload" = "No payload selected";
+"send.error.invalidPort" = "Invalid port number";
+"send.error.loadFailed" = "Could not load payload file";
+
+/* Errors */
+"error.folder.access" = "Could not access the selected folder.";
+"error.folder.bookmark" = "Could not save folder bookmark.";
+"error.folder.read" = "Could not read folder: %@";
+"error.connection.failed" = "Connection failed: %@";
+"error.send.failed" = "Send failed: %@";
+"error.payload.empty" = "Payload data is empty";
+"error.cancelled" = "Cancelled";
+"error.timeout" = "Connection timed out";
+
+/* Splash */
+"splash.title" = "PS5 Sender";

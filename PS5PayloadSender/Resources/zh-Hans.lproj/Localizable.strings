@@ -1,0 +1,42 @@
+/* Navigation */
+"app.title" = "PS5 Payload Sender";
+
+/* Connection */
+"connection.ip.placeholder" = "PS5 IP地址";
+"connection.port.placeholder" = "端口";
+"connection.keyboard.ok" = "完成";
+
+/* Folder */
+"folder.select.title" = "选择载荷文件夹";
+"folder.select.description" = "选择包含 .elf 和 .lua\n文件的文件夹";
+"folder.select.browse" = "浏览...";
+"folder.select.another" = "选择其他文件夹";
+"folder.menu.change" = "更换文件夹";
+"folder.menu.disconnect" = "断开文件夹";
+
+/* Payloads */
+"payloads.loading" = "正在加载载荷...";
+"payloads.empty.title" = "未找到载荷";
+"payloads.empty.description" = "将 .elf 或 .lua 文件\n添加到所选文件夹";
+"payloads.refresh" = "刷新";
+
+/* Send Button */
+"send.idle" = "发送载荷";
+"send.sending" = "发送中… — 点击取消";
+"send.success" = "已发送 %@";
+"send.error.noPayload" = "未选择载荷";
+"send.error.invalidPort" = "端口号无效";
+"send.error.loadFailed" = "无法加载载荷文件";
+
+/* Errors */
+"error.folder.access" = "无法访问所选文件夹。";
+"error.folder.bookmark" = "无法保存文件夹书签。";
+"error.folder.read" = "无法读取文件夹: %@";
+"error.connection.failed" = "连接失败: %@";
+"error.send.failed" = "发送失败: %@";
+"error.payload.empty" = "载荷数据为空";
+"error.cancelled" = "已取消";
+"error.timeout" = "连接超时";
+
+/* Splash */
+"splash.title" = "PS5 Sender";

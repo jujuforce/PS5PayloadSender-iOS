@@ -1,0 +1,24 @@
+# Xcode
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcworkspace/
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# Payload files (user provides their own)
+*.elf
+*.lua
+
+# Generated
+generate_icon.py
+
+# Local config
+Local.xcconfig
+
+# Claude
+.claude/

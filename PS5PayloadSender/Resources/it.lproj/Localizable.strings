@@ -1,0 +1,42 @@
+/* Navigation */
+"app.title" = "PS5 Payload Sender";
+
+/* Connection */
+"connection.ip.placeholder" = "Indirizzo IP PS5";
+"connection.port.placeholder" = "Porta";
+"connection.keyboard.ok" = "OK";
+
+/* Folder */
+"folder.select.title" = "Seleziona cartella";
+"folder.select.description" = "Scegli una cartella con i tuoi\nfile .elf e .lua";
+"folder.select.browse" = "Sfoglia...";
+"folder.select.another" = "Seleziona un'altra cartella";
+"folder.menu.change" = "Cambia cartella";
+"folder.menu.disconnect" = "Disconnetti cartella";
+
+/* Payloads */
+"payloads.loading" = "Caricamento payload...";
+"payloads.empty.title" = "Nessun payload trovato";
+"payloads.empty.description" = "Aggiungi file .elf o .lua\nnella cartella selezionata";
+"payloads.refresh" = "Aggiorna";
+
+/* Send Button */
+"send.idle" = "Invia payload";
+"send.sending" = "Invio… — Tocca per annullare";
+"send.success" = "%@ inviato";
+"send.error.noPayload" = "Nessun payload selezionato";
+"send.error.invalidPort" = "Numero di porta non valido";
+"send.error.loadFailed" = "Impossibile caricare il payload";
+
+/* Errors */
+"error.folder.access" = "Impossibile accedere alla cartella selezionata.";
+"error.folder.bookmark" = "Impossibile salvare il segnalibro della cartella.";
+"error.folder.read" = "Impossibile leggere la cartella: %@";
+"error.connection.failed" = "Connessione fallita: %@";
+"error.send.failed" = "Invio fallito: %@";
+"error.payload.empty" = "Dati del payload vuoti";
+"error.cancelled" = "Annullato";
+"error.timeout" = "Timeout di connessione";
+
+/* Splash */
+"splash.title" = "PS5 Sender";

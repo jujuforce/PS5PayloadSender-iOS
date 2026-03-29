@@ -1,0 +1,42 @@
+/* Navigation */
+"app.title" = "PS5 Payload Sender";
+
+/* Connection */
+"connection.ip.placeholder" = "Adresse IP PS5";
+"connection.port.placeholder" = "Port";
+"connection.keyboard.ok" = "OK";
+
+/* Folder */
+"folder.select.title" = "Sélectionner le dossier";
+"folder.select.description" = "Choisissez un dossier contenant vos\nfichiers .elf et .lua";
+"folder.select.browse" = "Parcourir...";
+"folder.select.another" = "Choisir un autre dossier";
+"folder.menu.change" = "Changer de dossier";
+"folder.menu.disconnect" = "Déconnecter le dossier";
+
+/* Payloads */
+"payloads.loading" = "Chargement des payloads...";
+"payloads.empty.title" = "Aucun payload trouvé";
+"payloads.empty.description" = "Ajoutez des fichiers .elf ou .lua\ndans le dossier sélectionné";
+"payloads.refresh" = "Actualiser";
+
+/* Send Button */
+"send.idle" = "Envoyer le payload";
+"send.sending" = "Envoi… — Toucher pour annuler";
+"send.success" = "%@ envoyé(s)";
+"send.error.noPayload" = "Aucun payload sélectionné";
+"send.error.invalidPort" = "Numéro de port invalide";
+"send.error.loadFailed" = "Impossible de charger le payload";
+
+/* Errors */
+"error.folder.access" = "Impossible d'accéder au dossier sélectionné.";
+"error.folder.bookmark" = "Impossible de sauvegarder le signet du dossier.";
+"error.folder.read" = "Impossible de lire le dossier : %@";
+"error.connection.failed" = "Connexion échouée : %@";
+"error.send.failed" = "Envoi échoué : %@";
+"error.payload.empty" = "Le payload est vide";
+"error.cancelled" = "Annulé";
+"error.timeout" = "Délai de connexion dépassé";
+
+/* Splash */
+"splash.title" = "PS5 Sender";

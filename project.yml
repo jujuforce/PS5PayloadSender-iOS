@@ -1,0 +1,40 @@
+name: PS5PayloadSender
+options:
+  bundleIdPrefix: com.yourname
+  deploymentTarget:
+    iOS: "26.0"
+  xcodeVersion: "16.0"
+
+targets:
+  PS5PayloadSender:
+    type: application
+    platform: iOS
+    sources:
+      - PS5PayloadSender/Sources
+      - path: PS5PayloadSender/Resources/poops_ps5.lua
+        buildPhase: resources
+        type: file
+      - path: PS5PayloadSender/Resources/kstuff.elf
+        buildPhase: resources
+        type: file
+      - path: PS5PayloadSender/Assets.xcassets
+    info:
+      path: PS5PayloadSender/Info.plist
+      properties:
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundlePackageType: APPL
+        CFBundleDisplayName: PS5 Sender
+        CFBundleName: PS5 Sender
+        CFBundleIconName: AppIcon
+        NSLocalNetworkUsageDescription: PS5 Payload Sender needs local network access to connect to your PS5 console.
+        UILaunchScreen:
+          UIColorName: ""
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.PS5PayloadSender
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: NO
