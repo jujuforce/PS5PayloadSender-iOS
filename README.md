@@ -53,6 +53,8 @@ PRODUCT_BUNDLE_IDENTIFIER = com.yourname.PS5PayloadSender
 
 Open `PS5PayloadSender.xcodeproj` in Xcode, build & run on your device or Mac.
 
+> **macOS note:** The pre-built `.zip` is ad-hoc signed. On first launch, right-click → **Open** to bypass Gatekeeper.
+
 ## Usage
 
 1. Select a folder with your payload files (first launch only)
