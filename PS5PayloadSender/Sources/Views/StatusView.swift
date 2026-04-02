@@ -30,7 +30,7 @@ struct SendButtonView: View {
                     Image(systemName: "paperplane.fill")
                     Text("send.idle").font(.headline)
                 case .sending:
-                    ProgressView().tint(.white)
+                    ProgressView().accentColor(.white)
                     Text("send.sending").font(.headline)
                 case .success(let bytes):
                     Image(systemName: "checkmark.circle.fill")
@@ -40,7 +40,7 @@ struct SendButtonView: View {
                     Text(msg).font(.headline).lineLimit(1)
                 }
             }
-            .foregroundStyle(.white)
+            .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
         }

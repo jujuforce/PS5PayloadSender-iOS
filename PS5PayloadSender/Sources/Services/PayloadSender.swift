@@ -13,11 +13,11 @@ enum SendError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .connectionFailed(let msg): return String(localized: "error.connection.failed \(msg)")
-        case .sendFailed(let msg): return String(localized: "error.send.failed \(msg)")
-        case .emptyPayload: return String(localized: "error.payload.empty")
-        case .cancelled: return String(localized: "error.cancelled")
-        case .timeout: return String(localized: "error.timeout")
+        case .connectionFailed(let msg): return String(format: NSLocalizedString("error.connection.failed", comment: ""), msg)
+        case .sendFailed(let msg): return String(format: NSLocalizedString("error.send.failed", comment: ""), msg)
+        case .emptyPayload: return NSLocalizedString("error.payload.empty", comment: "")
+        case .cancelled: return NSLocalizedString("error.cancelled", comment: "")
+        case .timeout: return NSLocalizedString("error.timeout", comment: "")
         }
     }
 }

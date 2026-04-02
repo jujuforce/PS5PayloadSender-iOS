@@ -1,5 +1,16 @@
 import SwiftUI
 
+extension Color {
+    /// `.cyan` was added in iOS 15. This falls back to the equivalent RGB value on iOS 14.
+    static var cyanCompat: Color {
+        if #available(iOS 15, *) {
+            return .cyan
+        } else {
+            return Color(red: 0, green: 1, blue: 1)
+        }
+    }
+}
+
 extension View {
     /// Dismisses the keyboard when scrolling, on iOS 16+. No-op on iOS 15.
     @ViewBuilder
@@ -22,4 +33,6 @@ extension View {
             self
         }
     }
+
+
 }

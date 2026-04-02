@@ -16,16 +16,28 @@ extension View {
     ) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
             self.modifier(LiquidGlassModifier(tint: tint, interactive: interactive, shape: AnyShape(shape)))
-        } else {
+        } else if #available(iOS 15.0, *) {
             self
-                .background {
+                .background(
                     ErasedShape(shape)
                         .fill(.ultraThinMaterial)
                         .overlay(
                             ErasedShape(shape)
-                                .stroke(.white.opacity(0.15), lineWidth: 1)
+                                .stroke(Color.white.opacity(0.15), lineWidth: 1)
                         )
-                }
+                )
+                .clipShape(ErasedShape(shape))
+        } else {
+            // iOS 14: no Material API — use tint if provided, otherwise semi-transparent white
+            self
+                .background(
+                    ErasedShape(shape)
+                        .fill(tint.map { $0.opacity(0.35) } ?? Color.white.opacity(0.15))
+                        .overlay(
+                            ErasedShape(shape)
+                                .stroke((tint ?? Color.white).opacity(0.25), lineWidth: 1)
+                        )
+                )
                 .clipShape(ErasedShape(shape))
         }
     }

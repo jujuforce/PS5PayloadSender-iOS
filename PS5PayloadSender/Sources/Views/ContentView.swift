@@ -10,156 +10,123 @@ struct ContentView: View {
     @State private var isSending = false
     @State private var sendTask: Task<Void, Never>?
     @State private var showFolderPicker = false
-    @FocusState private var focusedField: Field?
-
-    enum Field: Hashable { case ip, port }
 
     var body: some View {
-        navigationContainer
-    }
-
-    @ViewBuilder
-    private var navigationContainer: some View {
         if #available(iOS 16, *) {
-            NavigationStack { mainContent }
+            NavigationStack { content }
         } else {
-            NavigationView { mainContent }
+            NavigationView { content }
                 .navigationViewStyle(.stack)
         }
     }
 
-    private var mainContent: some View {
-            VStack(spacing: 0) {
-                // Fixed top: connection fields
-                connectionSection
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    .padding(.bottom, 16)
+    private var content: some View {
+        VStack(spacing: 0) {
+            connectionSection
+                .padding(.horizontal)
+                .padding(.top, 8)
+                .padding(.bottom, 16)
 
-                // Scrollable middle: payload grid
-                ScrollView {
-                    PayloadGridView(
-                        selectedPayload: $selectedPayload,
-                        portString: $portString,
-                        showFolderPicker: $showFolderPicker
-                    )
-                    .padding(.horizontal)
-                }
-                .scrollBounceBasedOnSize()
+            ScrollView {
+                PayloadGridView(
+                    selectedPayload: $selectedPayload,
+                    portString: $portString,
+                    showFolderPicker: $showFolderPicker
+                )
+                .padding(.horizontal)
+            }
+            .scrollBounceBasedOnSize()
 
-                // Fixed bottom: send button
+            if store.hasFolder {
+                SendButtonView(
+                    status: status,
+                    isEnabled: !ipAddress.isEmpty && selectedPayload != nil,
+                    onSend: sendPayload,
+                    onCancel: cancelSend
+                )
+                .padding(.horizontal)
+                .padding(.vertical, 12)
+            }
+        }
+        .background(AppBackground())
+        .scrollDismissesKeyboardCompat()
+        .simultaneousGesture(TapGesture().onEnded { dismissKeyboard() })
+        .navigationTitle("app.title")
+        #if targetEnvironment(macCatalyst)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
                 if store.hasFolder {
-                    SendButtonView(
-                        status: status,
-                        isEnabled: !ipAddress.isEmpty && selectedPayload != nil,
-                        onSend: sendPayload,
-                        onCancel: cancelSend
-                    )
-                    .padding(.horizontal)
-                    .padding(.vertical, 12)
-                }
-            }
-            .background { AppBackground() }
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button { focusedField = nil } label: {
-                        Text(String(localized: "connection.keyboard.ok"))
-                            .fontWeight(.semibold)
+                    Button { store.loadPayloads() } label: {
+                        Image(systemName: "arrow.clockwise")
                     }
-                }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    if store.hasFolder {
-                        Button { store.loadPayloads() } label: {
-                            Image(systemName: "arrow.clockwise")
-                        }
-                        folderMenu
-                    }
+                    folderMenu
                 }
             }
-            .scrollDismissesKeyboardCompat()
-            .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
-            .navigationTitle(String(localized: "app.title"))
-            #if targetEnvironment(macCatalyst)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [UTType.folder]) { result in
-                if case .success(let url) = result { store.setFolder(url) }
+        }
+        .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [UTType.folder]) { result in
+            if case .success(let url) = result { store.setFolder(url) }
+        }
+        .onChange(of: store.payloads) { newPayloads in
+            if selectedPayload == nil || !newPayloads.contains(where: { $0.id == selectedPayload?.id }) {
+                selectedPayload = newPayloads.first
+                portString = "\(selectedPayload?.defaultPort ?? 9021)"
             }
-            .onChange(of: store.payloads) { newPayloads in
-                if selectedPayload == nil || !newPayloads.contains(where: { $0.id == selectedPayload?.id }) {
-                    selectedPayload = newPayloads.first
-                    portString = "\(selectedPayload?.defaultPort ?? 9021)"
-                }
-            }
-    }
-
-    // MARK: - Connection
-
-    private var connectionSection: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Image(systemName: "network").foregroundStyle(.secondary)
-                TextField(String(localized: "connection.ip.placeholder"), text: $ipAddress)
-                    .keyboardType(.decimalPad)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($focusedField, equals: .ip)
-            }
-            .padding()
-            .glassCard(shape: .capsule)
-
-            HStack {
-                Image(systemName: "number").foregroundStyle(.secondary)
-                TextField(String(localized: "connection.port.placeholder"), text: $portString)
-                    .keyboardType(.numberPad)
-                    .focused($focusedField, equals: .port)
-            }
-            .padding()
-            .glassCard(shape: .capsule)
         }
     }
 
-    // MARK: - Folder Menu
+    private var connectionSection: some View {
+        ConnectionSection(ipAddress: $ipAddress, portString: $portString)
+    }
 
     private var folderMenu: some View {
         Menu {
             Button { showFolderPicker = true } label: {
-                Label(String(localized: "folder.menu.change"), systemImage: "folder")
+                Label("folder.menu.change", systemImage: "folder")
             }
-            Button(role: .destructive) { store.clearFolder() } label: {
-                Label(String(localized: "folder.menu.disconnect"), systemImage: "folder.badge.minus")
-            }
+            disconnectButton
         } label: {
             Image(systemName: "ellipsis.circle")
         }
     }
 
-    // MARK: - Actions
+    @ViewBuilder
+    private var disconnectButton: some View {
+        if #available(iOS 15, *) {
+            Button(role: .destructive) { store.clearFolder() } label: {
+                Label("folder.menu.disconnect", systemImage: "folder.badge.minus")
+            }
+        } else {
+            Button { store.clearFolder() } label: {
+                Label("folder.menu.disconnect", systemImage: "folder.badge.minus")
+                    .foregroundColor(.red)
+            }
+        }
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 
     private func sendPayload() {
         guard let selectedPayload else {
-            status = .error(String(localized: "send.error.noPayload")); return
+            status = .error(NSLocalizedString("send.error.noPayload", comment: "")); return
         }
         guard let port = UInt16(portString) else {
-            status = .error(String(localized: "send.error.invalidPort")); return
+            status = .error(NSLocalizedString("send.error.invalidPort", comment: "")); return
         }
         guard let data = selectedPayload.data else {
-            status = .error(String(localized: "send.error.loadFailed")); return
+            status = .error(NSLocalizedString("send.error.loadFailed", comment: "")); return
         }
-
         isSending = true
         status = .sending
-
         sendTask = Task {
             do {
                 let bytesSent = try await PayloadSender.send(data: data, to: ipAddress, port: port)
                 await MainActor.run { status = .success(bytesSent); isSending = false }
-                // Reset to idle after showing success briefly
                 try? await Task.sleep(nanoseconds: 3_000_000_000)
-                await MainActor.run {
-                    if case .success = status { status = .idle }
-                }
+                await MainActor.run { if case .success = status { status = .idle } }
             } catch is CancellationError {
                 await MainActor.run { status = .idle; isSending = false }
             } catch {
@@ -168,11 +135,8 @@ struct ContentView: View {
                     status = msg == "Cancelled" ? .idle : .error(msg)
                     isSending = false
                 }
-                // Reset to idle after showing error briefly
                 try? await Task.sleep(nanoseconds: 3_000_000_000)
-                await MainActor.run {
-                    if case .error = status { status = .idle }
-                }
+                await MainActor.run { if case .error = status { status = .idle } }
             }
         }
     }
@@ -180,6 +144,35 @@ struct ContentView: View {
     private func cancelSend() {
         sendTask?.cancel()
         sendTask = nil
+    }
+}
+
+// MARK: - Connection fields
+
+private struct ConnectionSection: View {
+    @Binding var ipAddress: String
+    @Binding var portString: String
+
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "network").foregroundColor(.secondary)
+                TextField("connection.ip.placeholder", text: $ipAddress)
+                    .keyboardType(.decimalPad)
+                    .disableAutocorrection(true)
+                    .onChange(of: ipAddress) { ipAddress = $0.replacingOccurrences(of: ",", with: ".") }
+            }
+            .padding()
+            .glassCard(shape: .capsule)
+
+            HStack {
+                Image(systemName: "number").foregroundColor(.secondary)
+                TextField("connection.port.placeholder", text: $portString)
+                    .keyboardType(.numberPad)
+            }
+            .padding()
+            .glassCard(shape: .capsule)
+        }
     }
 }
 

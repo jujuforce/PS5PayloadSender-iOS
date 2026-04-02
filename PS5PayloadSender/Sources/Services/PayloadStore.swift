@@ -28,7 +28,7 @@ final class PayloadStore: ObservableObject {
 
     func setFolder(_ url: URL) {
         guard url.startAccessingSecurityScopedResource() else {
-            error = String(localized: "error.folder.access")
+            error = NSLocalizedString("error.folder.access", comment: "")
             return
         }
 
@@ -40,7 +40,7 @@ final class PayloadStore: ObservableObject {
             )
             UserDefaults.standard.set(bookmarkData, forKey: Self.bookmarkKey)
         } catch {
-            self.error = String(localized: "error.folder.bookmark")
+            self.error = NSLocalizedString("error.folder.bookmark", comment: "")
         }
 
         folderURL = url
@@ -124,7 +124,7 @@ final class PayloadStore: ObservableObject {
             } catch {
                 let message = error.localizedDescription
                 await MainActor.run {
-                    self.error = String(localized: "error.folder.read \(message)")
+                    self.error = String(format: NSLocalizedString("error.folder.read", comment: ""), message)
                     self.payloads = []
                     self.isLoading = false
                 }
