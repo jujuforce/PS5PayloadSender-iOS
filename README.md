@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/iOS-14%2B-blue" />
+  <img src="https://img.shields.io/badge/iOS-13%2B-blue" />
   <img src="https://img.shields.io/badge/macOS-13%2B-blue" />
   <img src="https://img.shields.io/badge/Swift-6-orange" />
   <img src="https://img.shields.io/badge/license-MIT-green" />
@@ -30,6 +30,8 @@
 Sends payload files to your PS5 over Wi-Fi using a raw TCP connection. Works with `.lua` (port 9026) and `.elf` (port 9021) files.
 
 Load your payloads from **Dropbox**, **iCloud Drive**, **Google Drive**, or any folder visible in the Files app. Also runs natively on macOS 13+ via Mac Catalyst.
+
+Supports every iPhone and iPad from **iOS 13** onward — including devices that can't be updated further.
 
 ## Installation
 

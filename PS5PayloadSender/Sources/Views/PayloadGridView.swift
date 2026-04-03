@@ -6,11 +6,6 @@ struct PayloadGridView: View {
     @Binding var portString: String
     @Binding var showFolderPicker: Bool
 
-    private let gridColumns = [
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10),
-    ]
-
     var body: some View {
         Group {
             if !store.hasFolder {
@@ -47,12 +42,12 @@ struct PayloadGridView: View {
                 showFolderPicker = true
             } label: {
                 Text("folder.select.browse")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.headline)
                     .foregroundColor(.white)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 10)
+                    .frame(maxWidth: .infinity)
+                    .padding()
             }
-            .glassCard(tint: .blue, interactive: true, shape: .capsule)
+            .primaryButtonStyle(color: .blue)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
@@ -61,7 +56,7 @@ struct PayloadGridView: View {
 
     private var loadingView: some View {
         VStack(spacing: 12) {
-            ProgressView()
+            SpinnerView()
             Text("payloads.loading")
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -112,7 +107,7 @@ struct PayloadGridView: View {
         .glassCard()
     }
 
-    // "cpu.fill" requires SF Symbols 3 (iOS 15+); fall back to "cpu" on iOS 14.
+    // "cpu.fill" requires SF Symbols 3 (iOS 15+); fall back to "cpu" on earlier versions.
     private var cpuFillIcon: String {
         if #available(iOS 15, *) { return "cpu.fill" }
         return "cpu"
@@ -120,53 +115,77 @@ struct PayloadGridView: View {
 
     // MARK: - Grid
 
+    @ViewBuilder
     private var gridView: some View {
-        LazyVGrid(columns: gridColumns, spacing: 10) {
-            ForEach(store.payloads) { payload in
-                let isSelected = selectedPayload?.id == payload.id
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedPayload = payload
-                        portString = "\(payload.defaultPort)"
+        if #available(iOS 14, *) {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+                ForEach(store.payloads) { payloadCell($0) }
+            }
+        } else {
+            legacyGridView
+        }
+    }
+
+    /// Manual 2-column grid for iOS 13 (no LazyVGrid).
+    private var legacyGridView: some View {
+        VStack(spacing: 10) {
+            ForEach(Array(stride(from: 0, to: store.payloads.count, by: 2)), id: \.self) { i in
+                HStack(spacing: 10) {
+                    payloadCell(store.payloads[i])
+                    if i + 1 < store.payloads.count {
+                        payloadCell(store.payloads[i + 1])
+                    } else {
+                        Color.clear.frame(maxWidth: .infinity)
                     }
-                } label: {
-                    VStack(spacing: 0) {
-                        Spacer(minLength: 8)
-
-                        Image(systemName: payload.fileExtension == "lua" ? "scroll.fill" : cpuFillIcon)
-                            .font(.title3)
-                            .foregroundColor(payload.fileExtension == "lua" ? .orange : Color.cyanCompat)
-
-                        Spacer(minLength: 6)
-
-                        Text(payload.fullFilename)
-                            .font(.caption.weight(.semibold))
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .fixedSize(horizontal: false, vertical: true)
-
-                        Spacer(minLength: 8)
-
-                        Color.white.opacity(0.2)
-                            .frame(height: 0.5)
-                            .padding(.horizontal, 16)
-
-                        Spacer(minLength: 6)
-
-                        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                            .foregroundColor(isSelected ? .green : .secondary)
-                            .font(.subheadline)
-
-                        Spacer(minLength: 8)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 12)
-                    .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
-                .glassCard(tint: isSelected ? .blue.opacity(0.2) : nil)
             }
         }
+    }
+
+    @ViewBuilder
+    private func payloadCell(_ payload: Payload) -> some View {
+        let isSelected = selectedPayload?.id == payload.id
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                selectedPayload = payload
+                portString = "\(payload.defaultPort)"
+            }
+        } label: {
+            VStack(spacing: 0) {
+                Spacer(minLength: 8)
+
+                Image(systemName: payload.fileExtension == "lua" ? "scroll.fill" : cpuFillIcon)
+                    .font(.title3Compat)
+                    .foregroundColor(payload.fileExtension == "lua" ? .orange : Color.cyanCompat)
+
+                Spacer(minLength: 6)
+
+                Text(payload.fullFilename)
+                    .font(.caption.weight(.semibold))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Spacer(minLength: 8)
+
+                Color.white.opacity(0.2)
+                    .frame(height: 0.5)
+                    .padding(.horizontal, 16)
+
+                Spacer(minLength: 6)
+
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(isSelected ? .green : .secondary)
+                    .font(.subheadline)
+
+                Spacer(minLength: 8)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 12)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+        .glassCard(tint: isSelected ? .blue.opacity(0.2) : nil)
     }
 }
 

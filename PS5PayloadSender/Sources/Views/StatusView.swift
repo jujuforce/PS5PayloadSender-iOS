@@ -30,7 +30,7 @@ struct SendButtonView: View {
                     Image(systemName: "paperplane.fill")
                     Text("send.idle").font(.headline)
                 case .sending:
-                    ProgressView().accentColor(.white)
+                    SpinnerView().accentColor(.white)
                     Text("send.sending").font(.headline)
                 case .success(let bytes):
                     Image(systemName: "checkmark.circle.fill")
@@ -45,7 +45,7 @@ struct SendButtonView: View {
             .padding()
         }
         .disabled(!isEnabled && status == .idle)
-        .glassCard(tint: tintColor, interactive: true, shape: .capsule)
+        .primaryButtonStyle(color: tintColor)
         .opacity(!isEnabled && status == .idle ? 0.5 : 1.0)
     }
 }

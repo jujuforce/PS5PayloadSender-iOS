@@ -1,28 +1,40 @@
 import SwiftUI
-import UniformTypeIdentifiers
+import Combine
 
 struct ContentView: View {
     @EnvironmentObject private var store: PayloadStore
-    @AppStorage("ps5_ip") private var ipAddress = ""
+    @State private var ipAddress: String = UserDefaults.standard.string(forKey: "ps5_ip") ?? ""
     @State private var selectedPayload: Payload?
     @State private var portString = "9021"
     @State private var status: SendStatus = .idle
     @State private var isSending = false
     @State private var sendTask: Task<Void, Never>?
     @State private var showFolderPicker = false
+    @State private var showFolderActions = false
+
+    /// Binding that normalises comma → dot and persists the value to UserDefaults.
+    private var ipBinding: Binding<String> {
+        Binding(
+            get: { ipAddress },
+            set: { new in
+                ipAddress = new.replacingOccurrences(of: ",", with: ".")
+                UserDefaults.standard.set(ipAddress, forKey: "ps5_ip")
+            }
+        )
+    }
 
     var body: some View {
         if #available(iOS 16, *) {
-            NavigationStack { content }
+            NavigationStack { mainContent }
         } else {
-            NavigationView { content }
-                .navigationViewStyle(.stack)
+            NavigationView { mainContent }
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 
-    private var content: some View {
+    private var mainContent: some View {
         VStack(spacing: 0) {
-            connectionSection
+            ConnectionSection(ipAddress: ipBinding, portString: $portString)
                 .padding(.horizontal)
                 .padding(.top, 8)
                 .padding(.bottom, 16)
@@ -51,57 +63,34 @@ struct ContentView: View {
         .background(AppBackground())
         .scrollDismissesKeyboardCompat()
         .simultaneousGesture(TapGesture().onEnded { dismissKeyboard() })
-        .navigationTitle("app.title")
-        #if targetEnvironment(macCatalyst)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
-        .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                if store.hasFolder {
-                    Button { store.loadPayloads() } label: {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                    folderMenu
-                }
-            }
-        }
-        .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [UTType.folder]) { result in
-            if case .success(let url) = result { store.setFolder(url) }
-        }
-        .onChange(of: store.payloads) { newPayloads in
-            if selectedPayload == nil || !newPayloads.contains(where: { $0.id == selectedPayload?.id }) {
-                selectedPayload = newPayloads.first
-                portString = "\(selectedPayload?.defaultPort ?? 9021)"
-            }
-        }
+        .navigationTitleCompat("app.title")
+        .inlineTitleOnMac()
+        .navFolderToolbar(store: store, showFolderPicker: $showFolderPicker, showFolderActions: $showFolderActions)
+        .folderImporter(isPresented: $showFolderPicker) { store.setFolder($0) }
+        .actionSheet(isPresented: $showFolderActions, content: folderActionSheet)
+        .onReceive(store.$payloads, perform: syncSelection)
     }
 
-    private var connectionSection: some View {
-        ConnectionSection(ipAddress: $ipAddress, portString: $portString)
+    // Folder action sheet shown on iOS 13 (replaces the Menu on that version)
+    private func folderActionSheet() -> ActionSheet {
+        ActionSheet(
+            title: Text(""),
+            buttons: [
+                .default(Text(NSLocalizedString("folder.menu.change", comment: ""))) {
+                    showFolderPicker = true
+                },
+                .destructive(Text(NSLocalizedString("folder.menu.disconnect", comment: ""))) {
+                    store.clearFolder()
+                },
+                .cancel()
+            ]
+        )
     }
 
-    private var folderMenu: some View {
-        Menu {
-            Button { showFolderPicker = true } label: {
-                Label("folder.menu.change", systemImage: "folder")
-            }
-            disconnectButton
-        } label: {
-            Image(systemName: "ellipsis.circle")
-        }
-    }
-
-    @ViewBuilder
-    private var disconnectButton: some View {
-        if #available(iOS 15, *) {
-            Button(role: .destructive) { store.clearFolder() } label: {
-                Label("folder.menu.disconnect", systemImage: "folder.badge.minus")
-            }
-        } else {
-            Button { store.clearFolder() } label: {
-                Label("folder.menu.disconnect", systemImage: "folder.badge.minus")
-                    .foregroundColor(.red)
-            }
+    private func syncSelection(_ newPayloads: [Payload]) {
+        if selectedPayload == nil || !newPayloads.contains(where: { $0.id == selectedPayload?.id }) {
+            selectedPayload = newPayloads.first
+            portString = "\(selectedPayload?.defaultPort ?? 9021)"
         }
     }
 
@@ -160,7 +149,6 @@ private struct ConnectionSection: View {
                 TextField("connection.ip.placeholder", text: $ipAddress)
                     .keyboardType(.decimalPad)
                     .disableAutocorrection(true)
-                    .onChange(of: ipAddress) { ipAddress = $0.replacingOccurrences(of: ",", with: ".") }
             }
             .padding()
             .glassCard(shape: .capsule)

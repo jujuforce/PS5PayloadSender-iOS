@@ -43,6 +43,15 @@ extension View {
     }
 }
 
+extension View {
+    /// Solid-fill capsule — primary action button style, consistent across all OS versions.
+    func primaryButtonStyle(color: Color) -> some View {
+        self
+            .background(Capsule().fill(color))
+            .clipShape(Capsule())
+    }
+}
+
 @available(iOS 26.0, macOS 26.0, *)
 private struct LiquidGlassModifier: ViewModifier {
     let tint: Color?
