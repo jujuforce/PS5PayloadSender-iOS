@@ -2,7 +2,7 @@ import Foundation
 import Network
 import os
 
-private let log = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PS5PayloadSender", category: "PayloadSender")
+private let log = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "PS5PayloadSender", category: "PayloadSender")
 
 enum SendError: LocalizedError {
     case connectionFailed(String)
@@ -45,7 +45,7 @@ final class PayloadSender {
     static func send(data: Data, to host: String, port: UInt16) async throws -> Int {
         guard !data.isEmpty else { throw SendError.emptyPayload }
 
-        log.info("Connecting to \(host):\(port) (\(data.count) bytes)")
+        os_log("Connecting to %{public}@:%d (%d bytes)", log: log, type: .info, host, Int(port), data.count)
 
         let endpoint = NWEndpoint.hostPort(host: NWEndpoint.Host(host), port: NWEndpoint.Port(rawValue: port)!)
         let connection = NWConnection(to: endpoint, using: .tcp)
@@ -57,31 +57,31 @@ final class PayloadSender {
                 connection.stateUpdateHandler = { state in
                     switch state {
                     case .setup:
-                        log.debug("Connection state: setup")
+                        os_log("Connection state: setup", log: log, type: .debug)
                     case .preparing:
-                        log.debug("Connection state: preparing")
+                        os_log("Connection state: preparing", log: log, type: .debug)
                     case .ready:
-                        log.info("Connected to \(host):\(port), sending \(data.count) bytes...")
+                        os_log("Connected to %{public}@:%d, sending %d bytes...", log: log, type: .info, host, Int(port), data.count)
                         connection.send(content: data, isComplete: true, completion: .contentProcessed { error in
                             if let error {
-                                log.error("Send failed: \(error.localizedDescription)")
+                                os_log("Send failed: %{public}@", log: log, type: .error, error.localizedDescription)
                                 connection.cancel()
                                 box.resume(with: .failure(SendError.sendFailed(error.localizedDescription)))
                             } else {
-                                log.info("Successfully sent \(data.count) bytes to \(host):\(port)")
+                                os_log("Successfully sent %d bytes to %{public}@:%d", log: log, type: .info, data.count, host, Int(port))
                                 connection.cancel()
                                 box.resume(with: .success(data.count))
                             }
                         })
                     case .failed(let error):
-                        log.error("Connection failed: \(error.localizedDescription)")
+                        os_log("Connection failed: %{public}@", log: log, type: .error, error.localizedDescription)
                         connection.cancel()
                         box.resume(with: .failure(SendError.connectionFailed(error.localizedDescription)))
                     case .cancelled:
-                        log.info("Connection cancelled")
+                        os_log("Connection cancelled", log: log, type: .info)
                         box.resume(with: .failure(SendError.cancelled))
                     case .waiting(let error):
-                        log.warning("Connection waiting: \(error.localizedDescription)")
+                        os_log("Connection waiting: %{public}@", log: log, type: .default, error.localizedDescription)
                     @unknown default:
                         break
                     }
@@ -90,13 +90,13 @@ final class PayloadSender {
 
                 // Timeout after 5 seconds if not connected
                 DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
-                    log.error("Connection timed out after 5s")
+                    os_log("Connection timed out after 5s", log: log, type: .error)
                     connection.cancel()
                     box.resume(with: .failure(SendError.timeout))
                 }
             }
         } onCancel: {
-            log.info("Task cancelled, closing connection")
+            os_log("Task cancelled, closing connection", log: log, type: .info)
             connection.cancel()
         }
     }
