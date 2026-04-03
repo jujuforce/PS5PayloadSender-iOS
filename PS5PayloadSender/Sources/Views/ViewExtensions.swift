@@ -185,6 +185,8 @@ private struct FolderToolbar14: ViewModifier {
                 if store.hasFolder {
                     Button { store.loadPayloads() } label: {
                         Image(systemName: "arrow.clockwise")
+                            .padding(10)
+                            .contentShape(Rectangle())
                     }
                     Menu {
                         Button { showFolderPicker = true } label: {
@@ -193,6 +195,8 @@ private struct FolderToolbar14: ViewModifier {
                         disconnectButton
                     } label: {
                         Image(systemName: "ellipsis.circle")
+                            .padding(10)
+                            .contentShape(Rectangle())
                     }
                 }
             }
@@ -232,9 +236,17 @@ private struct FolderToolbarModifier: ViewModifier {
     @ViewBuilder
     private var ios13Buttons: some View {
         if store.hasFolder {
-            HStack(spacing: 16) {
-                Button { store.loadPayloads() } label: { Image(systemName: "arrow.clockwise") }
-                Button { showFolderActions = true } label: { Image(systemName: "ellipsis.circle") }
+            HStack(spacing: 4) {
+                Button { store.loadPayloads() } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .padding(10)
+                        .contentShape(Rectangle())
+                }
+                Button { showFolderActions = true } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .padding(10)
+                        .contentShape(Rectangle())
+                }
             }
         }
     }
