@@ -15,7 +15,7 @@ struct SendButtonView: View {
 
     private var tintColor: Color {
         switch status {
-        case .idle: .blue
+        case .idle: .appBlue
         case .sending: .orange
         case .success: .green
         case .error: .red

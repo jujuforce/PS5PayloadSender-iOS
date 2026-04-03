@@ -4,14 +4,19 @@ import UniformTypeIdentifiers
 // MARK: - Color Compat
 
 extension Color {
-    /// `.cyan` was added in iOS 15. This falls back to the equivalent RGB value on iOS 14.
+    /// Adaptive cyan: bright in dark mode, darker teal-blue in light mode so it stays
+    /// legible on white backgrounds. Uses UIColor adaptive init (iOS 13+).
     static var cyanCompat: Color {
-        if #available(iOS 15, *) {
-            return .cyan
-        } else {
-            return Color(red: 0, green: 1, blue: 1)
-        }
+        Color(UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 0, green: 0.9, blue: 1, alpha: 1)   // bright cyan
+                : UIColor(red: 0, green: 0.45, blue: 0.70, alpha: 1) // dark teal-blue
+        })
     }
+
+    /// Fixed #007AFF across all OS versions — avoids iOS 26's adaptive blue which renders
+    /// significantly lighter/more vibrant in dark mode.
+    static let appBlue = Color(red: 0, green: 122 / 255, blue: 1)
 }
 
 // MARK: - Font Compat
