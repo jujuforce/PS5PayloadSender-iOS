@@ -141,26 +141,43 @@ struct ContentView: View {
 private struct ConnectionSection: View {
     @Binding var ipAddress: String
     @Binding var portString: String
+    @Environment(\.verticalSizeClass) private var vSizeClass
 
     var body: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Image(systemName: "network").foregroundColor(.secondary)
-                TextField("connection.ip.placeholder", text: $ipAddress)
-                    .keyboardType(.decimalPad)
-                    .disableAutocorrection(true)
+        // iPhone landscape: verticalSizeClass == .compact — put both fields on one row.
+        // Portrait (and iPad): stacked vertically.
+        if vSizeClass == .compact {
+            HStack(spacing: 12) {
+                ipField
+                portField.frame(maxWidth: 160)
             }
-            .padding()
-            .glassCard(shape: .capsule)
-
-            HStack {
-                Image(systemName: "number").foregroundColor(.secondary)
-                TextField("connection.port.placeholder", text: $portString)
-                    .keyboardType(.numberPad)
+        } else {
+            VStack(spacing: 12) {
+                ipField
+                portField
             }
-            .padding()
-            .glassCard(shape: .capsule)
         }
+    }
+
+    private var ipField: some View {
+        HStack {
+            Image(systemName: "network").foregroundColor(.secondary)
+            TextField("connection.ip.placeholder", text: $ipAddress)
+                .keyboardType(.decimalPad)
+                .disableAutocorrection(true)
+        }
+        .padding()
+        .glassCard(shape: .capsule)
+    }
+
+    private var portField: some View {
+        HStack {
+            Image(systemName: "number").foregroundColor(.secondary)
+            TextField("connection.port.placeholder", text: $portString)
+                .keyboardType(.numberPad)
+        }
+        .padding()
+        .glassCard(shape: .capsule)
     }
 }
 
