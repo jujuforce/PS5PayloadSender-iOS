@@ -117,10 +117,10 @@ struct PayloadGridView: View {
         return "gear"
     }
 
-    // SF Symbols availability: scroll.fill = iOS 14+, scroll = iOS 13+
+    // SF Symbols availability: scroll.fill = iOS 14+, scroll = iOS 14+, doc.text = iOS 13+
     private var scrollIcon: String {
         if #available(iOS 14, *) { return "scroll.fill" }
-        return "scroll"
+        return "doc.text"
     }
 
     // MARK: - Grid
