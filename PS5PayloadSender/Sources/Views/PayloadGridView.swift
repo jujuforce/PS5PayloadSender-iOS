@@ -47,7 +47,7 @@ struct PayloadGridView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
             }
-            .primaryButtonStyle(color: .blue)
+            .primaryButtonStyle(color: .appBlue)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
@@ -87,7 +87,10 @@ struct PayloadGridView: View {
 
     private var emptyView: some View {
         VStack(spacing: 12) {
-            Image(systemName: "doc.questionmark")
+            Image(systemName: {
+                if #available(iOS 14, *) { return "doc.questionmark" }
+                return "doc"
+            }())
                 .font(.largeTitle)
                 .foregroundColor(.secondary)
             Text("payloads.empty.title")
@@ -107,10 +110,17 @@ struct PayloadGridView: View {
         .glassCard()
     }
 
-    // "cpu.fill" requires SF Symbols 3 (iOS 15+); fall back to "cpu" on earlier versions.
+    // SF Symbols availability: cpu.fill = iOS 15+, cpu = iOS 14+, gear = iOS 13+
     private var cpuFillIcon: String {
         if #available(iOS 15, *) { return "cpu.fill" }
-        return "cpu"
+        if #available(iOS 14, *) { return "cpu" }
+        return "gear"
+    }
+
+    // SF Symbols availability: scroll.fill = iOS 14+, scroll = iOS 13+
+    private var scrollIcon: String {
+        if #available(iOS 14, *) { return "scroll.fill" }
+        return "scroll"
     }
 
     // MARK: - Grid
@@ -154,7 +164,7 @@ struct PayloadGridView: View {
             VStack(spacing: 0) {
                 Spacer(minLength: 8)
 
-                Image(systemName: payload.fileExtension == "lua" ? "scroll.fill" : cpuFillIcon)
+                Image(systemName: payload.fileExtension == "lua" ? scrollIcon : cpuFillIcon)
                     .font(.title3Compat)
                     .foregroundColor(payload.fileExtension == "lua" ? .orange : Color.cyanCompat)
 

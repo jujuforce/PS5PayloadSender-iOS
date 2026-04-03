@@ -22,20 +22,28 @@ extension View {
                     ErasedShape(shape)
                         .fill(.ultraThinMaterial)
                         .overlay(
+                            // Tint overlay for selected state; plain white border otherwise.
                             ErasedShape(shape)
-                                .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                                .stroke(tint?.opacity(0.55) ?? Color.white.opacity(0.15), lineWidth: tint != nil ? 1.5 : 1)
                         )
                 )
                 .clipShape(ErasedShape(shape))
         } else {
-            // iOS 14: no Material API — use tint if provided, otherwise semi-transparent white
+            // iOS 14: no Material API — approximate the frosted glass look with a
+            // higher-opacity white fill. Selected cards get a brighter fill + vivid
+            // blue border. Border colour is hardcoded because the tint arrives
+            // pre-dimmed (.blue.opacity(0.2)) and compounding opacity kills it.
+            let isSelected = tint != nil
             self
                 .background(
                     ErasedShape(shape)
-                        .fill(tint.map { $0.opacity(0.35) } ?? Color.white.opacity(0.15))
+                        .fill(isSelected ? Color.appBlue.opacity(0.30) : Color.white.opacity(0.18))
                         .overlay(
                             ErasedShape(shape)
-                                .stroke((tint ?? Color.white).opacity(0.25), lineWidth: 1)
+                                .stroke(
+                                    isSelected ? Color.appBlue : Color.white.opacity(0.25),
+                                    lineWidth: isSelected ? 2 : 1
+                                )
                         )
                 )
                 .clipShape(ErasedShape(shape))
