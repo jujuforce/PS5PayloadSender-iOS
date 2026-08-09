@@ -60,7 +60,17 @@ final class PayloadStore: ObservableObject {
     // MARK: - Bookmark Restore
 
     private func restoreBookmark() {
-        guard let data = UserDefaults.standard.data(forKey: Self.bookmarkKey) else { return }
+        guard let data = UserDefaults.standard.data(forKey: Self.bookmarkKey) else {
+            // ponytail: no saved folder → fall back to our own Documents dir, which
+            // UIFileSharingEnabled + LSSupportsOpeningDocumentsInPlace publish as
+            // "On My iPhone → PS5 Sender". Keeps the folder picker off the critical
+            // path: a fresh install has somewhere to drop payloads without it.
+            // No security scope needed — this is inside our own sandbox, and
+            // setFolder() would reject it for exactly that reason.
+            folderURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            loadPayloads()
+            return
+        }
 
         var isStale = false
         guard let url = try? URL(

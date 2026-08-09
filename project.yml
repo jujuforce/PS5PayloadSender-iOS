@@ -27,6 +27,8 @@ targets:
         CFBundleDisplayName: PS5 Sender
         CFBundleName: PS5 Sender
         CFBundleIconName: AppIcon
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
         NSLocalNetworkUsageDescription: PS5 Payload Sender needs local network access to connect to your PS5 console.
         UILaunchScreen:
           UIColorName: ""
