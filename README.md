@@ -29,7 +29,7 @@
 
 Sends payload files to your PS5 over Wi-Fi using a raw TCP connection. Works with `.lua` (port 9026) and `.elf` (port 9021) files.
 
-Load your payloads from **Dropbox**, **iCloud Drive**, **Google Drive**, or any folder visible in the Files app. Also runs natively on macOS 13+ via Mac Catalyst.
+Drop your payloads straight into the app's own folder — **Files → On My iPhone → PS5 Sender** — or point it at any other folder in the Files app, including **Dropbox**, **iCloud Drive** and **Google Drive**. Also runs natively on macOS 13+ via Mac Catalyst.
 
 Supports every iPhone and iPad from **iOS 13** onward — including devices that can't be updated further.
 
@@ -61,9 +61,11 @@ Open `PS5PayloadSender.xcodeproj` in Xcode, build & run on your device or Mac.
 
 ## Usage
 
-1. Select a folder with your payload files (first launch only)
-2. Enter your PS5's IP address
+1. Add your payload files to **Files → On My iPhone → PS5 Sender**, then hit refresh
+2. Enter your PS5's IP address — find it on the console under **Settings → Network → Connection Status**
 3. Tap a payload, then **Send**
+
+To use a different folder instead, pick one from the **•••** menu.
 
 The port updates automatically based on file type (`.lua` → `9026`, `.elf` → `9021`). You can override it manually if needed.
 
